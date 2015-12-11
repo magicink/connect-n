@@ -210,7 +210,6 @@ export class Board {
       this.isWon = true
     }
   }
-
   isFull () {
     let full = false
     if (this.columns.length > 0) {
@@ -225,6 +224,11 @@ export class Board {
     return full
   }
   reset () {
-
+    this.isWon = false
+    if (this.columns.length > 0) {
+      for (let column of this.columns) {
+        column.reset()
+      }
+    }
   }
 }
