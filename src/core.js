@@ -232,3 +232,27 @@ export class Board {
     }
   }
 }
+
+export class Game {
+  constructor (totalPlayers = 2, columns = 7, rows = 6) {
+    this.totalPlayers = (Number.isInteger(totalPlayers) && totalPlayers > 1) ? totalPlayers : 2
+    this.columns = (Number.isInteger(columns) && columns > 1) ? columns : 7
+    this.rows = (Number.isInteger(rows) && rows > 1) ? rows : 6
+    this.players = []
+    this.currentPlayer = null
+    this.board = new Board(this.columns, this.rows)
+    for (let i = 1; i <= this.totalPlayers; i++) {
+      this.players.push({
+        playerId: i
+      })
+    }
+    this.currentPlayer = 1
+  }
+  nextPlayer () {
+    if (this.currentPlayer === this.totalPlayers) {
+      this.currentPlayer = 1
+    } else {
+      this.currentPlayer++
+    }
+  }
+}

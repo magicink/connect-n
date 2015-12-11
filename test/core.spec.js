@@ -1,4 +1,4 @@
-import { Board, Column } from '../src/core'
+import { Board, Column, Game } from '../src/core'
 import { expect } from 'chai'
 
 describe('Core', () => {
@@ -241,6 +241,15 @@ describe('Core', () => {
         expect(boardA.isWon).to.equal(true)
         boardA.reset()
         expect(boardA.isWon).to.equal(false)
+      })
+    })
+  })
+  describe('Game', () => {
+    describe('Construction', () => {
+      it('it should construct a game with the default settings', () => {
+        let game = new Game()
+        expect(game.board).to.deep.equal(new Board(7, 6))
+        expect(game.players.length).to.equal(2)
       })
     })
   })
