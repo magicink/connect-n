@@ -64,6 +64,7 @@ export class Board {
   addChecker (playerId, column) {
     let addedChecker = false
     if (
+      !this.isWon &&
       !this.isFull() &&
       Number.isInteger(column) &&
       this.columns.length > 0 &&
@@ -71,38 +72,142 @@ export class Board {
       column <= this.columns.length
     ) {
       addedChecker = this.columns[column - 1].addChecker(playerId)
-      if (addedChecker && this.isWinningPossible) {
+      if (addedChecker && this.isWinningPossible && !this.isWon) {
         this.checkWinningCondition(playerId, column, this.height - this.columns[column - 1].availableRows)
       }
     }
     return addedChecker
   }
-  checkWinningCondition (playerId, x, y) {
-    let count = 1
-    let maxLeftTravel = Math.min(x - 1, this.winningLength - 1)
-    let maxRightTravel = Math.min(this.width - x, this.winningLength - 1)
+  checkWinningCondition (playerId, startingColumn, startingRow) {
+    const movement = {
+      left: Math.min(startingColumn - 1, this.winningLength - 1),
+      right: Math.min(this.width - startingColumn, this.winningLength - 1),
+      up: Math.min(this.height - startingRow, this.winningLength - 1),
+      down: Math.min(startingRow - 1, this.winningLength - 1)
+    }
+    let consecutiveTiles = {
+      left: 0,
+      right: 0,
+      down: 0,
+      up: 0,
+      upLeft: 0,
+      downLeft: 0,
+      upRight: 0,
+      downRight: 0
+    }
+    let moves, columnIndex, rowIndex
 
-    while (maxLeftTravel > 0) {
-      maxLeftTravel--
-      if (this.columns[maxLeftTravel].rows[y - 1] !== playerId || count >= this.winningLength) {
-        break
+    // Check tiles to the left
+    moves = movement.left
+    columnIndex = startingColumn - 2
+    rowIndex = startingRow - 1
+    while (moves > 0 && columnIndex >= 0) {
+      if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+        consecutiveTiles.left++
       } else {
-        count++
+        break
+      }
+      columnIndex--
+      moves--
+    }
+
+    // Check tiles to the right
+    moves = movement.right
+    columnIndex = startingColumn
+    rowIndex = startingRow - 1
+    while (moves > 0 && columnIndex < this.width) {
+      if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+        consecutiveTiles.right++
+      } else {
+        break
+      }
+      columnIndex++
+      moves--
+    }
+
+    // Check tiles below
+    moves = movement.down
+    columnIndex = startingColumn - 1
+    rowIndex = startingRow - 2
+    while (moves > 0 && rowIndex >= 0) {
+      if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+        consecutiveTiles.down++
+      } else {
+        break
+      }
+      rowIndex--
+      moves--
+    }
+
+    if (this.isDiagonalWinPossible) {
+      // Check tiles up and to the left
+      moves = Math.min(movement.left, movement.up, this.winningLength - 1)
+      columnIndex = startingColumn - 2
+      rowIndex = startingRow
+      while (moves > 0) {
+        if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+          consecutiveTiles.upLeft++
+        } else {
+          break
+        }
+        columnIndex--
+        rowIndex++
+        moves--
+      }
+      // Check tiles down and to the right
+      moves = Math.min(movement.right, movement.down, this.winningLength - 1)
+      columnIndex = startingColumn
+      rowIndex = startingRow - 2
+      while (moves > 0) {
+        if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+          consecutiveTiles.downRight++
+        } else {
+          break
+        }
+        columnIndex++
+        rowIndex--
+        moves--
+      }
+      // Check tiles up and to the right
+      moves = Math.min(movement.right, movement.up, this.winningLength - 1)
+      columnIndex = startingColumn
+      rowIndex = startingRow
+      while (moves > 0) {
+        if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+          consecutiveTiles.upRight++
+        } else {
+          break
+        }
+        columnIndex++
+        rowIndex++
+        moves--
+      }
+      // Check tiles down and to the left
+      moves = Math.min(movement.left, movement.down, this.winningLength - 1)
+      columnIndex = startingColumn - 2
+      rowIndex = startingRow - 2
+      while (moves > 0) {
+        if (this.columns[columnIndex].rows[rowIndex] === playerId) {
+          consecutiveTiles.downLeft++
+        } else {
+          break
+        }
+        columnIndex--
+        rowIndex--
+        moves--
       }
     }
-    let rightTravelIndex = x
-    while (maxRightTravel > 0) {
-      maxRightTravel--
-      if (this.columns[rightTravelIndex].rows[y - 1] !== playerId || count >= this.winningLength) {
-        break
-      } else {
-        count++
-      }
-      rightTravelIndex++
-    }
-
-    if (count < this.winningLength) {
-      count = 1
+    const consecutiveHorizontalTiles = consecutiveTiles.left + consecutiveTiles.right + 1
+    const consecutiveVerticalTiles = consecutiveTiles.down + 1
+    const consecutiveDiagonalUpTiles = consecutiveTiles.downLeft + consecutiveTiles.upRight + 1
+    const consecutiveDiagonalDownTiles = consecutiveTiles.upLeft + consecutiveTiles.downRight + 1
+    if (
+      consecutiveHorizontalTiles >= this.winningLength ||
+      consecutiveVerticalTiles >= this.winningLength ||
+      consecutiveDiagonalUpTiles >= this.winningLength ||
+      consecutiveDiagonalDownTiles >= this.winningLength
+    ) {
+      this.isWon = true
     }
   }
 
