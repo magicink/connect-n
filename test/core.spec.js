@@ -1,4 +1,6 @@
-import Game, { Board, Column, GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from '../src/game'
+import Board from '../src/board'
+import Column from '../src/column'
+import Game, { GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from '../src/game'
 import { expect } from 'chai'
 
 describe('Core', () => {
