@@ -47,6 +47,7 @@ export class Board {
     this.isWinningPossible = true
     this.isWon = false
     this.isValidBoard = false
+    this.winningSet = []
     if (Number.isInteger(x) && Number.isInteger(y) && x > 0 && y > 0) {
       this.height = y
       this.width = x
@@ -99,6 +100,14 @@ export class Board {
     }
     let moves, columnIndex, rowIndex
 
+    let set = []
+    let horizontalSet = []
+    let verticalSet = []
+    let diagonalDownSet = []
+    let diagonalUpSet = []
+
+    set.push({x: startingColumn - 1, y: startingRow - 1})
+
     // Check tiles to the left
     moves = movement.left
     columnIndex = startingColumn - 2
@@ -106,6 +115,7 @@ export class Board {
     while (moves > 0 && columnIndex >= 0) {
       if (this.columns[columnIndex].rows[rowIndex] === playerId) {
         consecutiveTiles.left++
+        horizontalSet.push({x: columnIndex, y: rowIndex})
       } else {
         break
       }
@@ -120,6 +130,7 @@ export class Board {
     while (moves > 0 && columnIndex < this.width) {
       if (this.columns[columnIndex].rows[rowIndex] === playerId) {
         consecutiveTiles.right++
+        horizontalSet.push({x: columnIndex, y: rowIndex})
       } else {
         break
       }
@@ -134,6 +145,7 @@ export class Board {
     while (moves > 0 && rowIndex >= 0) {
       if (this.columns[columnIndex].rows[rowIndex] === playerId) {
         consecutiveTiles.down++
+        verticalSet.push({x: columnIndex, y: rowIndex})
       } else {
         break
       }
@@ -149,6 +161,7 @@ export class Board {
       while (moves > 0) {
         if (this.columns[columnIndex].rows[rowIndex] === playerId) {
           consecutiveTiles.upLeft++
+          diagonalDownSet.push({x: columnIndex, y: rowIndex})
         } else {
           break
         }
@@ -163,6 +176,7 @@ export class Board {
       while (moves > 0) {
         if (this.columns[columnIndex].rows[rowIndex] === playerId) {
           consecutiveTiles.downRight++
+          diagonalDownSet.push({x: columnIndex, y: rowIndex})
         } else {
           break
         }
@@ -177,6 +191,7 @@ export class Board {
       while (moves > 0) {
         if (this.columns[columnIndex].rows[rowIndex] === playerId) {
           consecutiveTiles.upRight++
+          diagonalUpSet.push({x: columnIndex, y: rowIndex})
         } else {
           break
         }
@@ -191,6 +206,7 @@ export class Board {
       while (moves > 0) {
         if (this.columns[columnIndex].rows[rowIndex] === playerId) {
           consecutiveTiles.downLeft++
+          diagonalUpSet.push({x: columnIndex, y: rowIndex})
         } else {
           break
         }
@@ -210,6 +226,19 @@ export class Board {
       consecutiveDiagonalDownTiles >= this.winningLength
     ) {
       this.isWon = true
+      if (consecutiveHorizontalTiles >= this.winningLength) {
+        set.push.apply(set, horizontalSet)
+      }
+      if (consecutiveVerticalTiles >= this.winningLength) {
+        set.push.apply(set, verticalSet)
+      }
+      if (consecutiveDiagonalDownTiles >= this.winningLength) {
+        set.push.apply(set, diagonalDownSet)
+      }
+      if (consecutiveDiagonalUpTiles >= this.winningLength) {
+        set.push.apply(set, diagonalUpSet)
+      }
+      this.winningSet = set
     }
   }
   isFull () {
@@ -227,6 +256,7 @@ export class Board {
   }
   reset () {
     this.isWon = false
+    this.winningSet = []
     if (this.columns.length > 0) {
       for (let column of this.columns) {
         column.reset()

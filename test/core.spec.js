@@ -11,7 +11,7 @@ describe('Core', () => {
         expect(column.rows.length).to.equal(25)
       })
       it('should handle strings invalid input data', () => {
-        let columnA = new Column('dog')
+        let columnA = new Column('test')
         expect(columnA.rows.length).to.equal(0)
 
         let columnB = new Column(-5)
