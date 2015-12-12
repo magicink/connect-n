@@ -46,6 +46,7 @@ export class Board {
     this.isDiagonalWinPossible = true
     this.isWinningPossible = true
     this.isWon = false
+    this.isValidBoard = false
     if (Number.isInteger(x) && Number.isInteger(y) && x > 0 && y > 0) {
       this.height = y
       this.width = x
@@ -59,6 +60,7 @@ export class Board {
         this.columns.push(new Column(y))
         x--
       }
+      this.isValidBoard = true
     }
   }
   addChecker (playerId, column) {
@@ -233,26 +235,38 @@ export class Board {
   }
 }
 
-export class Game {
-  constructor (totalPlayers = 2, columns = 7, rows = 6) {
+export default class {
+  constructor (totalPlayers, columns, rows) {
+    this.totalPlayers = 0
+    this.players = null
+    this.currentPlayer = 0
+    this.board = null
+    this.configure(totalPlayers, columns, rows)
+  }
+  nextPlayer () {
+    if (this.players.length > 1) {
+      if (this.currentPlayer === this.players.length) {
+        this.currentPlayer = 1
+      } else {
+        this.currentPlayer++
+      }
+    }
+  }
+  configure (totalPlayers = 2, columns = 7, rows = 6) {
     this.totalPlayers = (Number.isInteger(totalPlayers) && totalPlayers > 1) ? totalPlayers : 2
-    this.columns = (Number.isInteger(columns) && columns > 1) ? columns : 7
-    this.rows = (Number.isInteger(rows) && rows > 1) ? rows : 6
     this.players = []
-    this.currentPlayer = null
-    this.board = new Board(this.columns, this.rows)
     for (let i = 1; i <= this.totalPlayers; i++) {
       this.players.push({
-        playerId: i
+        playerId: i,
+        name: `Player {i}`,
       })
     }
     this.currentPlayer = 1
+    this.board = new Board(columns, rows)
   }
-  nextPlayer () {
-    if (this.currentPlayer === this.totalPlayers) {
-      this.currentPlayer = 1
-    } else {
-      this.currentPlayer++
+  reset () {
+    if (this.board) {
+      this.board.reset()
     }
   }
 }

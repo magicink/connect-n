@@ -1,4 +1,4 @@
-import { Board, Column, Game } from '../src/core'
+import Game, { Board, Column } from '../src/core'
 import { expect } from 'chai'
 
 describe('Core', () => {
@@ -61,59 +61,35 @@ describe('Core', () => {
     describe('Construction', () => {
       it('should construct a board with the appropriate number columns', () => {
         const board = new Board(3, 4)
-        expect(board).to.deep.equal({
-          columns: [
-            { availableRows: 4, maxRows: 4, rows: [0, 0, 0, 0] },
-            { availableRows: 4, maxRows: 4, rows: [0, 0, 0, 0] },
-            { availableRows: 4, maxRows: 4, rows: [0, 0, 0, 0] }
-          ],
-          height: 4,
-          isDiagonalWinPossible: false,
-          isWinningPossible: true,
-          isWon: false,
-          width: 3,
-          winningLength: 4
-        })
+        expect(board.columns[0]).to.deep.equal(new Column(4))
+        expect(board.columns[1]).to.deep.equal(new Column(4))
+        expect(board.columns[2]).to.deep.equal(new Column(4))
       })
     })
     describe('Adding Checker', () => {
       let board = new Board(2, 2)
+      let columnA = new Column(2)
+      let columnB = new Column(2)
       it('should properly add checkers to columns', () => {
         board.addChecker(1, 1)
         board.addChecker(2, 2)
         board.addChecker(3, 1)
-        expect(board).to.deep.equal({
-          columns: [
-            { availableRows: 0, maxRows: 2, rows: [1, 3] },
-            { availableRows: 1, maxRows: 2, rows: [2, 0] }
-          ],
-          height: 2,
-          isDiagonalWinPossible: false,
-          isWinningPossible: false,
-          isWon: false,
-          width: 2,
-          winningLength: 4
-        })
+        columnA.addChecker(1)
+        columnA.addChecker(3)
+        columnB.addChecker(2)
+        expect(board.columns[0]).to.deep.equal(columnA)
+        expect(board.columns[1]).to.deep.equal(columnB)
       })
       it('should detect when the board is full', () => {
         expect(board.isFull()).to.equal(false)
         board.addChecker(4, 2)
+        columnB.addChecker(4)
         expect(board.isFull()).to.equal(true)
       })
       it('should not add more any checkers once the board is full', () => {
         expect(board.addChecker(5, 1)).to.equal(false)
-        expect(board).to.deep.equal({
-          columns: [
-            { availableRows: 0, maxRows: 2, rows: [1, 3] },
-            { availableRows: 0, maxRows: 2, rows: [2, 4] }
-          ],
-          height: 2,
-          isDiagonalWinPossible: false,
-          isWinningPossible: false,
-          isWon: false,
-          width: 2,
-          winningLength: 4
-        })
+        expect(board.columns[0]).to.deep.equal(columnA)
+        expect(board.columns[1]).to.deep.equal(columnB)
       })
     })
     describe('Checking Winning Conditions', () => {
@@ -246,18 +222,9 @@ describe('Core', () => {
   })
   describe('Game', () => {
     describe('Construction', () => {
+      let game = new Game()
       it('should construct a game with the default settings', () => {
-        let game = new Game()
         expect(game.board).to.deep.equal(new Board(7, 6))
-        expect(game.players.length).to.equal(2)
-      })
-      it('should correctly switch players', () => {
-        let game = new Game()
-        expect(game.currentPlayer).to.equal(1)
-        game.nextPlayer()
-        expect(game.currentPlayer).to.equal(2)
-        game.nextPlayer()
-        expect(game.currentPlayer).to.equal(1)
       })
     })
   })
