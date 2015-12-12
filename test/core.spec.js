@@ -1,5 +1,5 @@
 import Game, { Board, Column } from '../src/core'
-import { GAME_STATE_ACTIVE, GAME_STATE_WON } from '../src/core'
+import { GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from '../src/core'
 import { expect } from 'chai'
 
 describe('Core', () => {
@@ -247,7 +247,7 @@ describe('Core', () => {
       it('should be active', () => {
         expect(game.gameState).to.equal(GAME_STATE_ACTIVE)
       })
-      it('should allow me to place a checker in the first column', () => {
+      it('should detect a victory', () => {
         game.addChecker(1)
         expect(game.currentPlayer).to.equal(2)
         game.addChecker(2)
@@ -279,6 +279,16 @@ describe('Core', () => {
           name: 'Player 1',
           wins: 1
         })
+      })
+      it('should detect a draw', () => {
+        game.configure(15)
+        expect(game.players.length).to.equal(15)
+        for (let i = 1; i < 16; i++) {
+          for (let j = 1; j < 8; j++) {
+            game.addChecker(j)
+          }
+        }
+        expect(game.gameState).to.equal(GAME_STATE_DRAW)
       })
     })
   })

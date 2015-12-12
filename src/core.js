@@ -309,6 +309,7 @@ export default class {
       this.board.reset()
       this.gameState = GAME_STATE_ACTIVE
       this.winner = null
+      this.currentPlayer = 1
     }
   }
 }
