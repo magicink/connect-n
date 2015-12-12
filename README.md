@@ -1,2 +1,3 @@
-# Connect Four
-A rendition of the classic game "Connect 4" created using ES6 and Webpack
+# Connect N
+It's like "Connect 4", but it supports a variable number of columns, rows,
+and players.

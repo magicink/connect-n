@@ -1,5 +1,5 @@
-import Board from '../src/board'
-import Column from '../src/column'
+import Board from '../src/js/board'
+import Column from '../src/js/column'
 import { expect } from 'chai'
 
 describe('Board', () => {

@@ -1,4 +1,4 @@
-import Column from '../src/column'
+import Column from '../src/js/column'
 import { expect } from 'chai'
 
 describe('Column', () => {

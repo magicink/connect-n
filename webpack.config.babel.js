@@ -1,7 +1,10 @@
 import webpack from 'webpack'
 
 export default {
-  entry: './src/index.js',
+  entry: [
+    './src/js/index.js',
+    'file?name=index.html!jade!./src/jade/index.jade'
+  ],
   output: {
     path: './dist',
     filename: 'bundle.js'

@@ -1,6 +1,6 @@
-import Board from '../src/board'
+import Board from '../src/js/board'
 import { expect } from 'chai'
-import Game, { GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from '../src/game'
+import Game, { GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from '../src/js/game'
 
 describe('Game', () => {
   let game = new Game()
