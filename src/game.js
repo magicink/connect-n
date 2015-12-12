@@ -280,7 +280,7 @@ export default class {
   }
   addChecker (column) {
     let addedChecker = false
-    if (this.gameState === GAME_STATE_ACTIVE && !this.board.isWon) {
+    if (this.gameState === GAME_STATE_ACTIVE && !this.board.isWon && !this.board.isFull()) {
       addedChecker = this.board.addChecker(this.currentPlayer, column)
     }
     if (addedChecker) {

@@ -1,1 +1,1 @@
-import Game from './core'
+import Game from './game'
