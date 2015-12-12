@@ -64,6 +64,11 @@ describe('Core', () => {
         expect(board.columns[0]).to.deep.equal(new Column(4))
         expect(board.columns[1]).to.deep.equal(new Column(4))
         expect(board.columns[2]).to.deep.equal(new Column(4))
+        expect(board.isValidBoard).to.equal(true)
+      })
+      it('should handle invalid constructor arguments', () => {
+        const board = new Board('test', '5')
+        expect(board.isValidBoard).to.equal(false)
       })
     })
     describe('Adding Checker', () => {
@@ -79,6 +84,10 @@ describe('Core', () => {
         columnB.addChecker(2)
         expect(board.columns[0]).to.deep.equal(columnA)
         expect(board.columns[1]).to.deep.equal(columnB)
+      })
+      it('should handle invalid arguments', () => {
+        expect(board.addChecker(1, 3)).to.equal(false)
+        expect(board.addChecker(1, 'test')).to.equal(false)
       })
       it('should detect when the board is full', () => {
         expect(board.isFull()).to.equal(false)
@@ -225,6 +234,12 @@ describe('Core', () => {
       let game = new Game()
       it('should construct a game with the default settings', () => {
         expect(game.board).to.deep.equal(new Board(7, 6))
+        expect(game.players).to.deep.equal([
+          {playerId: 1, name: 'Player 1'},
+          {playerId: 2, name: 'Player 2'}
+        ])
+        expect(game.totalPlayers).to.equal(2)
+        expect(game.currentPlayer).to.equal(1)
       })
     })
   })
