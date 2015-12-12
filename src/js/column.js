@@ -1,3 +1,5 @@
+import 'babel-polyfill'
+
 export default class {
   constructor (totalRows) {
     this.availableRows = 0

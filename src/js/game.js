@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import Board from './board'
 
 export const GAME_STATE_ACTIVE = 'GAME_STATE_ACTIVE'
