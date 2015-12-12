@@ -1,1 +1,1 @@
-import { Board, Column, Game } from './core'
+import Game from './core'
