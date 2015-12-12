@@ -246,10 +246,18 @@ describe('Core', () => {
   })
   describe('Game', () => {
     describe('Construction', () => {
-      it('it should construct a game with the default settings', () => {
+      it('should construct a game with the default settings', () => {
         let game = new Game()
         expect(game.board).to.deep.equal(new Board(7, 6))
         expect(game.players.length).to.equal(2)
+      })
+      it('should correctly switch players', () => {
+        let game = new Game()
+        expect(game.currentPlayer).to.equal(1)
+        game.nextPlayer()
+        expect(game.currentPlayer).to.equal(2)
+        game.nextPlayer()
+        expect(game.currentPlayer).to.equal(1)
       })
     })
   })
