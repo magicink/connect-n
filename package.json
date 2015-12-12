@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/setup.js --recursive",
+    "start": "webpack-dev-server",
+    "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [
@@ -22,8 +23,11 @@
     "chai": "^3.4.1",
     "file-loader": "^0.8.5",
     "jade": "^1.11.0",
-    "jade-loader": "^0.8.0",
+    "jade-html-loader": "0.0.3",
+    "jquery": "^2.1.4",
+    "jsdom": "^7.2.1",
     "mocha": "^2.3.4",
+    "mocha-jsdom": "^1.0.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },
