@@ -30,7 +30,6 @@ export default class {
     for (let i = 1; i <= this.totalPlayers; i++) {
       this.players.push({
         playerId: i,
-        name: `Player ${i}`,
         wins: 0
       })
     }

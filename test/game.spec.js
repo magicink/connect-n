@@ -8,8 +8,8 @@ describe('Game', () => {
     it('should construct a game with the default settings', () => {
       expect(game.board).to.deep.equal(new Board(7, 6))
       expect(game.players).to.deep.equal([
-        {playerId: 1, name: 'Player 1', wins: 0},
-        {playerId: 2, name: 'Player 2', wins: 0}
+        {playerId: 1, wins: 0},
+        {playerId: 2, wins: 0}
       ])
       expect(game.totalPlayers).to.equal(2)
       expect(game.currentPlayer).to.equal(1)
@@ -48,7 +48,6 @@ describe('Game', () => {
       expect(game.gameState).to.equal(GAME_STATE_WON)
       expect(game.winner).to.deep.equal({
         playerId: 1,
-        name: 'Player 1',
         wins: 1
       })
     })
