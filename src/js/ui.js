@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'babel-polyfill'
 import Game from './game'
 
 export default class {
