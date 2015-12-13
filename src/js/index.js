@@ -1,7 +1,5 @@
-import Game from './game'
 import $ from 'jquery'
+import GameUI from './ui'
 
 $(document).ready(() => {
-  let game = new Game()
-  console.log(game)
 })
