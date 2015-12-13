@@ -16,12 +16,23 @@ export default class {
   }
   render () {
     if (this.ctx) {
-      this.board = $('<section/>', {id: 'board'})
-      this.menu = $('<section/>', {id: 'menu'})
-      this.scoreboard = $('<section/>', {id: 'scoreboard'})
-      $(this.ctx).append($(this.scoreboard))
-      $(this.ctx).append($(this.board))
-      $(this.ctx).append($(this.menu))
+      this.menu = $('#menu')
+      if ($(this.menu).length > 0) {
+        this.board = $('<section/>', {id: 'board'})
+        this.scoreboard = $('<section/>', {id: 'scoreboard'})
+        $(this.menu).before($(this.board))
+        $(this.board).before($(this.scoreboard))
+      }
+      if ($('button[name="configure"]').length > 0) {
+        $('button[name="configure"]').on('click', (e) => {
+          e.preventDefault()
+          let players = Number.parseInt($('#players').val(), 10)
+          let columns = Number.parseInt($('#columns').val(), 10)
+          let rows = Number.parseInt($('#rows').val(), 10)
+          let length = Number.parseInt($('#length').val(), 10)
+          this.configure(players, columns, rows, length)
+        })
+      }
       this.renderBoard()
       this.renderScoreboard()
     }

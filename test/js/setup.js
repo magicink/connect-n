@@ -1,6 +1,6 @@
 import jsdom from 'node-jsdom'
 
-let doc = jsdom.jsdom('<!doctype html><html><body><div id="app"></div></body></html>')
+let doc = jsdom.jsdom('<!doctype html><html><body><div id="app"><section id="menu"></section></div></body></html>')
 let win = doc.defaultView
 
 global.document = doc
