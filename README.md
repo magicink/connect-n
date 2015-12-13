@@ -4,3 +4,22 @@
 
 It's like "Connect 4", but it supports a variable number of columns, rows,
 and players.
+
+### Installation
+
+#### Requirements
+You must have Node (0.10 or higher) installed on your system
+
+To install, navigate to the project directory using your systems
+terminal program. Once there, issue the following commands:
+
+`npm install`
+
+Once that process is complete, you can start the game server by
+executing the following command:
+
+`npm start`
+
+Finally, navigate to the game in your web browser at the following address:
+
+`http://localhost:8080`

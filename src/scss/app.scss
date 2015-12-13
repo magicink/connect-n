@@ -1,0 +1,13 @@
+@import './game.scss';
+@import './menu.scss';
+@import './board.scss';
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
+
+body {
+  background-color: #e9ece5;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+button, label {
+  margin: 0 1em
+}

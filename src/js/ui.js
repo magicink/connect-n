@@ -40,6 +40,7 @@ export default class {
   }
   renderBoard () {
     if (this.board && this.game.board.isValidBoard) {
+      $(this.board).attr('data-board-width', this.game.board.width)
       if ($('.column').length > 0) $('.column').remove()
       for (let i = 0; i < this.game.board.width; i++) {
         let column = $('<div/>')
@@ -52,6 +53,13 @@ export default class {
     if (this.scoreboard && this.game.totalPlayers) {
       if ($('.player').length > 0) $('.player').remove()
       for (let i = 0; i < this.game.totalPlayers; i++) {
+        let red = Math.floor((Math.random() * 255))
+        let green = Math.floor((Math.random() * 255))
+        let blue = Math.floor((Math.random() * 255))
+        red = Math.floor((red + 255) / 2)
+        green = Math.floor((green + 255) / 2)
+        blue = Math.floor((blue + 255) / 2)
+
         let player = $('<div/>')
         $(player)
           .addClass('player')
