@@ -41,7 +41,11 @@ export default class {
   }
   handleColumnClick (e) {
     let target = e.target
-    this.makeChecker(this.game.players[this.game.currentPlayer - 1].color, target)
+    if (target.children.length < this.game.board.height && this.game.gameState === GAME_STATE_ACTIVE) {
+      const columnId = Number.parseInt(target.getAttribute('data-column-id'), 10)
+      this.makeChecker(this.game.players[this.game.currentPlayer - 1].color, target)
+      this.game.addChecker(columnId)
+    }
   }
   handleConfigureClick (e) {
     e.preventDefault()
@@ -64,12 +68,7 @@ export default class {
     let targetY = containerSize.height - ((target.children.length + 1) * 60)
     checker.setAttribute('class', 'checker')
     checker.setAttribute('style', `background-color: ${color}; left: ${x}px; top: 0px;`)
-    checker.state = {
-      color,
-      targetY,
-      x,
-      y: 0
-    }
+    checker.state = { color, targetY, x, y: 0 }
     this.checkers.push(checker)
     target.appendChild(checker)
   }
@@ -100,6 +99,7 @@ export default class {
       for (let i = 0; i < this.game.board.width; i++) {
         let column = document.createElement('div')
         column.setAttribute('class', 'column')
+        column.setAttribute('data-column-id', i + 1)
         column.addEventListener('click', this.handleColumnClick.bind(this))
         this.columns.push(column)
         this.board.appendChild(column)
@@ -132,14 +132,8 @@ export default class {
         if (Math.abs(delta) > 0.1) {
           y -= delta * 0.2
         }
-        // console.log(y)
         checker.setAttribute('style', `background-color: ${color}; left: ${x}px; top: ${y}px;`)
-        checker.state = {
-          color,
-          targetY,
-          x,
-          y
-        }
+        checker.state = { color, targetY, x, y }
       }
     }
   }

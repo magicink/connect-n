@@ -7,10 +7,8 @@ describe('Game', () => {
   describe('Construction', () => {
     it('should construct a game with the default settings', () => {
       expect(game.board).toEqual(new Board(7, 6))
-      expect(game.players).toEqual([
-        {playerId: 1, wins: 0},
-        {playerId: 2, wins: 0}
-      ])
+      expect(game.players[0].playerId).toBe(1)
+      expect(game.players[1].playerId).toBe(2)
       expect(game.totalPlayers).toBe(2)
       expect(game.currentPlayer).toBe(1)
     })
@@ -46,10 +44,7 @@ describe('Game', () => {
       game.addChecker(7)
       game.addChecker(6)
       expect(game.gameState).toBe(GAME_STATE_WON)
-      expect(game.winner).toEqual({
-        playerId: 1,
-        wins: 1
-      })
+      expect(game.winner.playerId).toBe(1)
     })
     it('should detect a draw', () => {
       game.configure(15)

@@ -5,5 +5,4 @@ function init () {
   let app = document.querySelector('#app')
   return new GameUI(app)
 }
-
-document.body.onload = init
+document.addEventListener('DOMContentLoaded', init)
