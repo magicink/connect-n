@@ -3,21 +3,21 @@ head
   title="Connect N"
 body
   #app
-    section#menu
+    section#menu(style='visibility:hidden')
       form#game-options(name='game-options')
-        label(for='players') players:
+        label(for='players') players
         select#players(name='players')
           each val in [2, 3, 4]
             option(value=val)=val
-        label(for='columns') columns:
+        label(for='columns') columns
         select#columns(name='columns')
           each val in [7, 8, 9, 10]
             option(value=val)=val
-        label(for='rows') rows:
+        label(for='rows') rows
         select#rows(name='rows')
           each val in [6, 7, 8, 9, 10]
             option(value=val)=val
-        label(for='length') length:
+        label(for='length') length
         select#length(name='length')
           each val in [4, 5, 6]
             option(value=va)=val

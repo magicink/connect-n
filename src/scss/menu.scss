@@ -1,5 +1,6 @@
 #menu {
-  background-color: #b3c2bf;
+  background-color: rgba(black, 0.6);
+  color: white;
   position: absolute;
   bottom: 0;
   height: 50px;
@@ -7,4 +8,6 @@
   line-height: 50px;
   right: 0;
   text-align: center;
+  text-shadow: 1px 1px 2px black;
+  visibility: visible !important;
 }

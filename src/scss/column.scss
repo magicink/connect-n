@@ -1,0 +1,15 @@
+.column {
+  border-right: thin dotted $column-background-color;
+  display: inline;
+  float: left;
+  height: 100%;
+  position: relative;
+  transition: all 0.2s ease;
+  vertical-align: bottom;
+}
+.column:hover {
+  background-color: rgba($column-background-color, 0.1);
+}
+.column:last-child {
+  border-right: none;
+}

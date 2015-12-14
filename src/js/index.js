@@ -1,7 +1,9 @@
-import $ from 'jquery'
 import GameUI from './ui'
 import '../scss/app.scss'
 
-$(document).ready(() => {
-  return new GameUI($('#app'))
-})
+function init () {
+  let app = document.querySelector('#app')
+  return new GameUI(app)
+}
+
+document.body.onload = init

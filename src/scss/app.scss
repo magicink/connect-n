@@ -1,11 +1,15 @@
 @import './game.scss';
-@import './menu.scss';
 @import './board.scss';
+@import './column.scss';
+@import './checker.scss';
+@import './menu.scss';
 @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
 
 body {
   background-color: #e9ece5;
   font-family: 'Open Sans Condensed', sans-serif;
+  height: 100%;
+  width: 100%;
 }
 
 button, label {

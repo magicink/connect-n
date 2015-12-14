@@ -6,19 +6,7 @@ $column-background-color: #3b3a36;
   left: 25px;
   right: 25px;
   top: 75px;
-
-  .column {
-    border-right: thin dotted $column-background-color;
-    display: inline-block;
-    height: 100%;
-    transition: all 0.2s ease;
-  }
-  .column:hover {
-    background-color: rgba($column-background-color, 0.1);
-  }
-  .column:last-child {
-    border-right: none;
-  }
+  white-space: nowrap;
 }
 
 #board[data-board-width='7'] {

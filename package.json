@@ -27,7 +27,6 @@
     "file-loader": "^0.8.5",
     "jade": "^1.11.0",
     "jade-html-loader": "0.0.3",
-    "jquery": "^2.1.4",
     "jsdom": "^7.2.1",
     "mocha": "^2.3.4",
     "node-jsdom": "^3.1.5",
