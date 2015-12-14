@@ -1,5 +1,13 @@
 $column-background-color: #3b3a36;
 
+.checker {
+  border: thin solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  height: 50px;
+  position: absolute;
+  width: 50px;
+}
+
 #board {
   bottom: 75px;
   position: absolute;
@@ -31,4 +39,8 @@ $column-background-color: #3b3a36;
   .column {
     width: 9.9%;
   }
+}
+
+#next-checker {
+  position: absolute;
 }

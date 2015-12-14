@@ -46,8 +46,16 @@ export default class {
     this.totalPlayers = (Number.isInteger(totalPlayers) && totalPlayers > 1) ? totalPlayers : 2
     this.players = []
     for (let i = 1; i <= this.totalPlayers; i++) {
+      let red = Math.floor((Math.random() * 255))
+      let blue = Math.floor((Math.random() * 255))
+      let green = Math.floor((Math.random() * 255))
+      red = Math.floor((red + 200) / 2)
+      blue = Math.floor((blue + 200) / 2)
+      green = Math.floor((green + 200) / 2)
       this.players.push({
+        color: `rgb(${red}, ${blue}, ${green})`,
         playerId: i,
+        name: `Player ${i}`,
         wins: 0
       })
     }

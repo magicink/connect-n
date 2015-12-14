@@ -4,97 +4,143 @@ import Game, { GAME_STATE_ACTIVE, GAME_STATE_WON } from './game'
 export default class {
   constructor (ctx) {
     this.ctx = ctx
+    this.menu = document.getElementById('menu')
+    this.configureButton = document.getElementById('configure-button')
+    this.configureButton.addEventListener('click', this.handleConfigureClick.bind(this))
+
     this.game = null
     this.board = null
-    this.menu = null
+    this.nextChecker = null
     this.scoreboard = null
-    this.resizeDebounce = 100
+
+    this.resizeDebounce = 50
+    this.columns = []
+    this.players = []
+    this.checkers = []
+
     if (this.ctx) {
       this.game = new Game()
     }
     this.render()
-  }
-  configure (totalPlayers = 2, columns = 7, rows = 6, winningLength = 4) {
-    if (this.game) {
-      this.game.configure(totalPlayers, columns, rows, winningLength)
+    this.animate = () => {
+      window.requestAnimationFrame(this.animate)
+      this.updateCheckers()
     }
-    this.renderBoard()
-    // this.renderScoreboard()
+    this.animate()
   }
-  createChecker () {}
+  configure (player = 2, columns = 7, rows = 6, length = 4) {
+    if (this.game) {
+      player = Number.parseInt(player, 10)
+      columns = Number.parseInt(columns, 10)
+      rows = Number.parseInt(rows, 10)
+      length = Number.parseInt(length, 10)
+      this.game.configure(player, columns, rows, length)
+      this.renderBoard()
+      this.renderScoreboard()
+    }
+  }
+  handleColumnClick (e) {
+    let target = e.target
+    this.makeChecker(this.game.players[this.game.currentPlayer - 1].color, target)
+  }
+  handleConfigureClick (e) {
+    e.preventDefault()
+    if (this.checkers.length > 0) {
+      for (let checker of this.checkers) {
+        checker.parentNode.removeChild(checker)
+      }
+      this.checkers = []
+    }
+    let players = document.getElementById('players').value
+    let columns = document.getElementById('columns').value
+    let rows = document.getElementById('rows').value
+    let length = document.getElementById('length').value
+    this.configure(players, columns, rows, length)
+  }
+  makeChecker (color, target) {
+    let containerSize = target.getBoundingClientRect()
+    let x = Math.floor((containerSize.width - 50) / 2)
+    let checker = document.createElement('div')
+    let targetY = containerSize.height - ((target.children.length + 1) * 60)
+    checker.setAttribute('class', 'checker')
+    checker.setAttribute('style', `background-color: ${color}; left: ${x}px; top: 0px;`)
+    checker.state = {
+      color,
+      targetY,
+      x,
+      y: 0
+    }
+    this.checkers.push(checker)
+    target.appendChild(checker)
+  }
   render () {
     if (this.ctx) {
-      this.menu = document.getElementById('menu')
+      this.scoreboard = document.createElement('div')
+      this.scoreboard.setAttribute('id', 'scoreboard')
       this.nextChecker = document.createElement('div')
       this.nextChecker.setAttribute('id', 'next-checker')
       this.board = document.createElement('div')
       this.board.setAttribute('id', 'board')
-      // console.log(this.menu, this.board)
+      this.ctx.insertBefore(this.scoreboard, this.menu)
       this.ctx.insertBefore(this.nextChecker, this.menu)
       this.ctx.insertBefore(this.board, this.menu)
       this.renderBoard()
+      this.renderScoreboard()
     }
   }
   renderBoard () {
     if (this.board && this.game.board.isValidBoard) {
-      let existingColumns = document.getElementsByClassName('columns')
-      if (existingColumns.length > 0) existingColumns.remove()
+      if (this.columns.length > 0) {
+        for (let column of this.columns) {
+          column.parentNode.removeChild(column)
+        }
+        this.columns = []
+      }
       this.board.setAttribute('data-board-width', this.game.board.width)
       for (let i = 0; i < this.game.board.width; i++) {
         let column = document.createElement('div')
         column.setAttribute('class', 'column')
+        column.addEventListener('click', this.handleColumnClick.bind(this))
+        this.columns.push(column)
         this.board.appendChild(column)
       }
     }
   }
-  // render () {
-  //   if (this.ctx) {
-  //     this.menu = $('#menu')
-  //     if ($(this.menu).length > 0) {
-  //       this.board = $('<section/>', {id: 'board'})
-  //       this.scoreboard = $('<section/>', {id: 'scoreboard'})
-  //       $(this.menu).before($(this.board))
-  //       $(this.board).before($(this.scoreboard))
-  //     }
-  //     if ($('button[name="configure"]').length > 0) {
-  //       $('button[name="configure"]').on('click', (e) => {
-  //         e.preventDefault()
-  //         let players = Number.parseInt($('#players').val(), 10)
-  //         let columns = Number.parseInt($('#columns').val(), 10)
-  //         let rows = Number.parseInt($('#rows').val(), 10)
-  //         let length = Number.parseInt($('#length').val(), 10)
-  //         this.configure(players, columns, rows, length)
-  //       })
-  //     }
-  //     this.renderBoard()
-  //     this.renderScoreboard()
-  //   }
-  // }
-  // renderBoard () {
-  //   if (this.board && this.game.board.isValidBoard) {
-  //     $(this.board).attr('data-board-width', this.game.board.width)
-  //     if ($('.column').length > 0) $('.column').remove()
-  //     for (let i = 0; i < this.game.board.width; i++) {
-  //       let column = $('<div/>')
-  //       $(column)
-  //         .addClass('column')
-  //         .attr('data-column-id', i + 1)
-  //       $(this.board).append($(column))
-  //     }
-  //   }
-  // }
-  // renderScoreboard () {
-  //   if (this.scoreboard && this.game.totalPlayers) {
-  //     if ($('.player').length > 0) $('.player').remove()
-  //     for (let i = 0; i < this.game.totalPlayers; i++) {
-  //       let player = $('<div/>')
-  //       $(player)
-  //         .addClass('player')
-  //         .attr('data-player-id', i + 1)
-  //       $(this.scoreboard).append($(player))
-  //     }
-  //   }
-  // }
-  // reset () {}
-  // update () {}
+  renderScoreboard () {
+    if (this.scoreboard && this.game.totalPlayers > 0) {
+      if (this.players.length > 0) {
+        for (let player of this.players) {
+          player.parentNode.removeChild(player)
+        }
+        this.players = []
+      }
+      for (let i = 0; i < this.game.totalPlayers; i++) {
+        let player = document.createElement('div')
+        player.setAttribute('class', 'player')
+        player.setAttribute('style', `background-color: ${this.game.players[i].color}`)
+        player.innerHTML = this.game.players[i].name
+        this.players.push(player)
+        this.scoreboard.appendChild(player)
+      }
+    }
+  }
+  updateCheckers () {
+    if (this.checkers.length > 0) {
+      for (let checker of this.checkers) {
+        let { color, targetY, x, y } = checker.state
+        let delta = y - targetY
+        if (Math.abs(delta) > 0.1) {
+          y -= delta * 0.2
+        }
+        // console.log(y)
+        checker.setAttribute('style', `background-color: ${color}; left: ${x}px; top: ${y}px;`)
+        checker.state = {
+          color,
+          targetY,
+          x,
+          y
+        }
+      }
+    }
+  }
 }
