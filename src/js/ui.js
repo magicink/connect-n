@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import Game, { GAME_STATE_ACTIVE, GAME_STATE_WON } from './game'
+import Game, { GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from './game'
 
 export default class {
   constructor (ctx) {
@@ -12,6 +12,8 @@ export default class {
     this.board = null
     this.nextChecker = null
     this.scoreboard = null
+    this.dialog = null
+    this.closeButton = null
 
     this.resizeDebounce = 50
     this.columns = []
@@ -39,12 +41,38 @@ export default class {
       this.renderScoreboard()
     }
   }
+  handleCloseClick (e) {
+    if (this.dialog) {
+      this.dialog.parentNode.removeChild(this.dialog)
+      this.dialog = null
+      this.handleConfigureClick(e)
+    }
+  }
   handleColumnClick (e) {
     let target = e.target
     if (target.children.length < this.game.board.height && this.game.gameState === GAME_STATE_ACTIVE) {
       const columnId = Number.parseInt(target.getAttribute('data-column-id'), 10)
       this.makeChecker(this.game.players[this.game.currentPlayer - 1].color, target)
       this.game.addChecker(columnId)
+      if (this.game.gameState === GAME_STATE_WON || this.game.gameState === GAME_STATE_DRAW) {
+        this.dialog = document.createElement('div')
+        this.dialog.setAttribute('class', 'dialog')
+        if (this.game.gameState === GAME_STATE_WON) {
+          this.dialog.innerHTML = `<h1>${this.game.winner.name} Wins!</h1><p>(Click Here to Play Again)`
+        } else if (this.game.gameState === GAME_STATE_DRAW) {
+          this.dialog.innerHTML = `<h1>DRAW!</h1><p>(Click Here to Play Again)`
+        }
+        // this.closeButton = document.createElement('div')
+        // this.closeButton.setAttribute('class', 'close-button')
+        this.dialog.addEventListener('click', this.handleCloseClick.bind(this))
+        // this.dialog.appendChild(this.closeButton)
+        this.ctx.appendChild(this.dialog)
+        const ctxSize = this.ctx.getBoundingClientRect()
+        const dialogSize = this.dialog.getBoundingClientRect()
+        const offsetX = (ctxSize.width - dialogSize.width) / 2
+        const offsetY = (ctxSize.height - dialogSize.height) / 2
+        this.dialog.setAttribute('style', `left: ${offsetX}px; top: ${offsetY}px`)
+      }
     }
   }
   handleConfigureClick (e) {

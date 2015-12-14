@@ -15,6 +15,10 @@ terminal program. Once there, issue the following commands:
 
 `npm install`
 
+Followed by
+
+`webpack`
+
 Once that process is complete, you can start the game server by
 executing the following command:
 

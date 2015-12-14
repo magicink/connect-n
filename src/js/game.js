@@ -63,7 +63,7 @@ export default class {
     columns = (Number.isInteger(columns) && columns > 0) ? columns : 7
     rows = (Number.isInteger(rows) && rows > 0) ? rows : 6
     winningLength = (Number.isInteger(winningLength) && winningLength > 0) ? winningLength : 4
-    this.board = new Board(columns, rows)
+    this.board = new Board(columns, rows, winningLength)
     if (this.board.isValidBoard) {
       this.gameState = GAME_STATE_ACTIVE
     }
