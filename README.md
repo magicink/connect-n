@@ -27,3 +27,8 @@ executing the following command:
 Finally, navigate to the game in your web browser at the following address:
 
 `http://localhost:8080`
+
+### To-Do
+
+* Resize Handling
+* Column click debouncing
