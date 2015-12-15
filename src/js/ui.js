@@ -50,7 +50,11 @@ export default class {
   }
   handleColumnClick (e) {
     let target = e.target
-    if (target.children.length < this.game.board.height && this.game.gameState === GAME_STATE_ACTIVE) {
+    if (
+      target.children.length < this.game.board.height &&
+      this.game.gameState === GAME_STATE_ACTIVE &&
+      target.getAttribute('class') === 'column'
+    ) {
       const columnId = Number.parseInt(target.getAttribute('data-column-id'), 10)
       this.makeChecker(this.game.players[this.game.currentPlayer - 1].color, target)
       this.game.addChecker(columnId)
