@@ -69,10 +69,7 @@ export default class {
         } else if (this.game.gameState === GAME_STATE_DRAW) {
           this.dialog.innerHTML = `<h1>DRAW!</h1><h3>(Click Here to Play Again)</h3>`
         }
-        // this.closeButton = document.createElement('div')
-        // this.closeButton.setAttribute('class', 'close-button')
         this.dialog.addEventListener('click', this.handleCloseClick.bind(this))
-        // this.dialog.appendChild(this.closeButton)
         this.ctx.appendChild(this.dialog)
         const ctxSize = this.ctx.getBoundingClientRect()
         const dialogSize = this.dialog.getBoundingClientRect()
