@@ -58,9 +58,9 @@ export default class {
         this.dialog = document.createElement('div')
         this.dialog.setAttribute('class', 'dialog')
         if (this.game.gameState === GAME_STATE_WON) {
-          this.dialog.innerHTML = `<h1>${this.game.winner.name} Wins!</h1><p>(Click Here to Play Again)`
+          this.dialog.innerHTML = `<h1>${this.game.winner.name} Wins!</h1><h3>(Click Here to Play Again)</h3>`
         } else if (this.game.gameState === GAME_STATE_DRAW) {
-          this.dialog.innerHTML = `<h1>DRAW!</h1><p>(Click Here to Play Again)`
+          this.dialog.innerHTML = `<h1>DRAW!</h1><h3>(Click Here to Play Again)</h3>`
         }
         // this.closeButton = document.createElement('div')
         // this.closeButton.setAttribute('class', 'close-button')
@@ -77,6 +77,10 @@ export default class {
   }
   handleConfigureClick (e) {
     e.preventDefault()
+    if (this.dialog) {
+      this.dialog.parentNode.removeChild(this.dialog)
+      this.dialog = null
+    }
     if (this.checkers.length > 0) {
       for (let checker of this.checkers) {
         checker.parentNode.removeChild(checker)
