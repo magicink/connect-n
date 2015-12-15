@@ -50,6 +50,9 @@ export default class {
   }
   handleColumnClick (e) {
     let target = e.target
+    if (target.getAttribute('class') === 'checker') {
+      target = e.target.parentNode
+    }
     if (
       target.children.length < this.game.board.height &&
       this.game.gameState === GAME_STATE_ACTIVE &&
