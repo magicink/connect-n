@@ -5,6 +5,8 @@
 It's like "Connect 4", but it supports a variable number of columns, rows,
 and players.
 
+[![Preview](http://g.recordit.co/vZbw0VhRVh.gif)]
+
 ### Installation
 
 #### Requirements
