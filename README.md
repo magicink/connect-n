@@ -17,18 +17,11 @@ terminal program. Once there, issue the following commands:
 
 `npm install`
 
-Followed by
-
-`webpack`
-
-Once that process is complete, you can start the game server by
-executing the following command:
-
 `npm start`
 
 Finally, navigate to the game in your web browser at the following address:
 
-`http://localhost:8080`
+`http://localhost:3000`
 
 ### To-Do
 

@@ -1,10 +1,10 @@
-@import './game.scss';
-@import './board.scss';
-@import './column.scss';
-@import './checker.scss';
-@import './menu.scss';
-@import './scoreboard.scss';
-@import './dialog.scss';
+@import './game';
+@import './board';
+@import './column';
+@import './checker';
+@import './menu';
+@import './scoreboard';
+@import './dialog';
 @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300);
 
 body {

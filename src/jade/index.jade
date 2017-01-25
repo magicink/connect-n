@@ -1,6 +1,7 @@
 doctype html
 head
   title="Connect N"
+  link(href='app.css' rel='stylesheet')
 body
   #app
     section#menu(style='visibility:hidden')
@@ -22,4 +23,4 @@ body
           each val in [4, 5, 6]
             option(value=val)=val
         button(id='configure-button' name='configure') reset
-  script(src='./bundle.js')
+  script(src='bundle.js')

@@ -1,13 +1,20 @@
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 import webpack from 'webpack'
 
+const sourcePath = path.resolve(__dirname, 'src')
+const jsPath = `${sourcePath}/js`
+const jadePath = `${sourcePath}/jade`
+const sassPath = `${sourcePath}/scss`
+
 export default {
   entry: [
-    './src/js/index.js',
-    'file?name=index.html!jade-html!./src/jade/index.jade'
+    `${jsPath}/index.js`,
+    `file-loader?name=app.css!sass-loader!${sassPath}/app.scss`
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
@@ -24,15 +31,19 @@ export default {
       {
         test: /\.js?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       },
       {
-        test: /\.scss$/,
-        loader: 'style!css!autoprefixer!sass'
+        loader: 'pug-html-loader',
+        test: /\.(pug|jade)$/
       }
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({inject: 'body', template: `${jadePath}/index.jade`})
+  ],
+  resolve: {
+    extensions: ['.js']
+  }
 }
