@@ -7,7 +7,8 @@ import TerserWebpackPlugin from 'terser-webpack-plugin'
 export default {
   entry: {
     main: [
-      '@babel/polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       path.resolve(__dirname, 'src', 'js', 'index.js')
     ]
   },
