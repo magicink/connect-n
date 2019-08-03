@@ -1,6 +1,6 @@
 FROM node
 MAINTAINER Brandon Tom
-ENV PORT=3000
+ENV PORT=8379
 COPY . /var/www
 WORKDIR /var/www
 RUN npm install

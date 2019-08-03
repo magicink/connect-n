@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import Column from './column'
 
 export default class {

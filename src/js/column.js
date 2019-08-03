@@ -1,5 +1,3 @@
-import 'babel-polyfill'
-
 export default class {
   constructor (totalRows) {
     this.availableRows = 0
@@ -14,6 +12,7 @@ export default class {
       }
     }
   }
+
   addChecker (playerId) {
     let addedChecker = false
     if (Number.isInteger(playerId) && playerId > 0) {
@@ -26,6 +25,7 @@ export default class {
     }
     return addedChecker
   }
+
   reset () {
     if (this.maxRows > 0) {
       this.availableRows = this.maxRows

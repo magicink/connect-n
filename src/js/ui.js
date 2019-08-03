@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import Game, { GAME_STATE_ACTIVE, GAME_STATE_DRAW, GAME_STATE_WON } from './game'
 
 export default class {
