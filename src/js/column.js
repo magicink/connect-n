@@ -3,7 +3,7 @@ export default class {
     this.availableRows = 0
     this.maxRows = 0
     this.rows = []
-    if (Number.isInteger(totalRows) && totalRows > 0) {
+    if (totalRows > 0) {
       this.availableRows = totalRows
       this.maxRows = totalRows
       while (totalRows > 0) {
@@ -15,7 +15,7 @@ export default class {
 
   addChecker (playerId) {
     let addedChecker = false
-    if (Number.isInteger(playerId) && playerId > 0) {
+    if (playerId > 0) {
       if (this.availableRows > 0) {
         const targetRow = this.rows.length - this.availableRows
         this.rows[targetRow] = playerId
@@ -27,14 +27,12 @@ export default class {
   }
 
   reset () {
-    if (this.maxRows > 0) {
-      this.availableRows = this.maxRows
-      this.rows = []
-      let totalRows = this.maxRows
-      while (totalRows > 0) {
-        this.rows.push(0)
-        totalRows--
-      }
+    this.availableRows = this.maxRows
+    this.rows = []
+    let totalRows = this.maxRows
+    while (totalRows > 0) {
+      this.rows.push(0)
+      totalRows--
     }
   }
 }

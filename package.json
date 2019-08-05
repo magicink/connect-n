@@ -14,12 +14,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode development",
-    "test": "jest"
+    "build": "webpack --mode production",
+    "test": "jest --coverage"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
-      "/flow-typed/",
       "/node_modules/",
       "/test/"
     ],

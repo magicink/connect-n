@@ -7,6 +7,20 @@ describe('Board', () => {
   it('should initialize correctly', () => {
     const board = new Board(20, 20)
     expect(board.winningLength).toEqual(4)
+    const invalidBoard = new Board(2, 2, 3)
+    expect(invalidBoard.isValidBoard).toEqual(true)
+    expect(invalidBoard.isWinningPossible).toEqual(false)
+  })
+  it('should throw errors', () => {
+    expect(() => {
+      new Board('1', 2)
+    }).toThrow()
+    expect(() => {
+      new Board(1, '2')
+    }).toThrow()
+    expect(() => {
+      new Board(1, 2, '2')
+    }).toThrow()
   })
   it('should add a checker', () => {
     const board = new Board(4, 4)

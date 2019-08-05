@@ -2,16 +2,18 @@ import Column from './column'
 
 export default class {
   constructor (x, y, winningLength = 4) {
+    if (!Number.isInteger(x) || !Number.isInteger(y) || !Number.isInteger(winningLength))
+      throw new Error('Attempting to construct board with invalid properties')
     this.columns = []
     this.height = 0
     this.width = 0
-    this.winningLength = (Number.isInteger(winningLength) && winningLength > 0) ? winningLength : 4
+    this.winningLength = (winningLength > 0) ? winningLength : 4
     this.isDiagonalWinPossible = true
     this.isWinningPossible = true
     this.isWon = false
     this.isValidBoard = false
     this.winningSet = []
-    if (Number.isInteger(x) && Number.isInteger(y) && x > 0 && y > 0) {
+    if (x > 0 && y > 0) {
       this.height = y
       this.width = x
       if (winningLength > x || winningLength > y) {

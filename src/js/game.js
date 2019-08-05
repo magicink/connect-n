@@ -5,9 +5,9 @@ export const GAME_STATE_WON = 'GAME_STATE_WON'
 export const GAME_STATE_DRAW = 'GAME_STATE_DRAW'
 
 export default class {
-  constructor (totalPlayers, columns, rows, winningLength) {
+  constructor (totalPlayers, columns = 7, rows = 6, winningLength = 4) {
     this.totalPlayers = 0
-    this.players = null
+    this.players = []
     this.currentPlayer = 0
     this.board = null
     this.gameState = null
@@ -15,6 +15,7 @@ export default class {
     this.moves = 0
     this.configure(totalPlayers, columns, rows, winningLength)
   }
+
   addChecker (column) {
     let addedChecker = false
     if (this.gameState === GAME_STATE_ACTIVE && !this.board.isWon && !this.board.isFull()) {
@@ -41,8 +42,9 @@ export default class {
     }
     return addedChecker
   }
+
   configure (totalPlayers, columns, rows, winningLength) {
-    this.totalPlayers = (Number.isInteger(totalPlayers) && totalPlayers > 1) ? totalPlayers : 2
+    this.totalPlayers = (totalPlayers > 1) ? totalPlayers : 2
     this.players = []
     for (let i = 1; i <= this.totalPlayers; i++) {
       let red = Math.floor((Math.random() * 255))
@@ -59,30 +61,26 @@ export default class {
       })
     }
     this.currentPlayer = 1
-    columns = (Number.isInteger(columns) && columns > 0) ? columns : 7
-    rows = (Number.isInteger(rows) && rows > 0) ? rows : 6
-    winningLength = (Number.isInteger(winningLength) && winningLength > 0) ? winningLength : 4
     this.board = new Board(columns, rows, winningLength)
     if (this.board.isValidBoard) {
       this.gameState = GAME_STATE_ACTIVE
     }
   }
+
   findPlayer (playerId) {
-    if (this.players) {
-      this.players.find((element, index, array) => {
-        return element.playerId === playerId
-      })
-    }
+    return this.players.find((element, index, array) => {
+      return element.playerId === playerId
+    })
   }
+
   nextPlayer () {
-    if (this.players.length > 1) {
-      if (this.currentPlayer === this.players.length) {
-        this.currentPlayer = 1
-      } else {
-        this.currentPlayer++
-      }
+    if (this.currentPlayer === this.players.length) {
+      this.currentPlayer = 1
+    } else {
+      this.currentPlayer++
     }
   }
+
   reset () {
     if (this.board && this.board.isValidBoard) {
       this.board.reset()
