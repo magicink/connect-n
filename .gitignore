@@ -10,5 +10,3 @@ dist/
 .idea/
 
 coverage/
-
-yarn.lock
