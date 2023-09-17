@@ -1,54 +1,113 @@
-import Column from './column'
+import Column from './Column'
 
-export default class {
-  constructor (x, y, winningLength = 4) {
-    if (!Number.isInteger(x) || !Number.isInteger(y) || !Number.isInteger(winningLength))
+/**
+ * Add isInteger static method to Number
+ * @param {any} value - The value to check
+ * @returns {boolean} - Returns true if the value is a positive integer
+ */
+const isInteger = function (value: any): boolean {
+  return (
+    typeof value === 'number' &&
+    isFinite(value) &&
+    Math.floor(value) === value &&
+    value >= 0
+  )
+}
+
+/**
+ * Represents a game board
+ */
+export default class Board {
+  columns: Column[]
+  height: number
+  width: number
+  winningLength: number
+  isDiagonalWinPossible: boolean
+  isWinningPossible: boolean
+  isWon: boolean
+  isValidBoard: boolean
+  winningSet: { x: number; y: number }[]
+
+  /**
+   * Creates a new Board
+   * @param {number} x - The width of the board
+   * @param {number} y - The height of the board
+   * @param {number} [winningLength=4] - The length required to win
+   */
+  constructor(x: number, y: number, winningLength: number = 4) {
+    if (!isInteger(x) || !isInteger(y) || !isInteger(winningLength))
       throw new Error('Attempting to construct board with invalid properties')
+
     this.columns = []
     this.height = 0
     this.width = 0
-    this.winningLength = (winningLength > 0) ? winningLength : 4
+    this.winningLength = winningLength > 0 ? winningLength : 4
     this.isDiagonalWinPossible = true
     this.isWinningPossible = true
     this.isWon = false
     this.isValidBoard = false
     this.winningSet = []
+
     if (x > 0 && y > 0) {
       this.height = y
       this.width = x
+
       if (winningLength > x || winningLength > y) {
         this.isDiagonalWinPossible = false
       }
+
       if (winningLength > x && winningLength > y) {
         this.isWinningPossible = false
       }
+
       while (x > 0) {
         this.columns.push(new Column(y))
         x--
       }
+
       this.isValidBoard = true
     }
   }
 
-  addChecker (playerId, column) {
+  /**
+   * Add a checker to the board
+   * @param {number} playerId - The ID of the player adding the checker
+   * @param {number} column - The column index to add the checker
+   * @returns {boolean} - Whether the checker was added successfully
+   */
+  addChecker(playerId: number, column: number): boolean {
     let addedChecker = false
     if (
       !this.isWon &&
       !this.isFull() &&
-      Number.isInteger(column) &&
+      isInteger(column) &&
       this.columns.length > 0 &&
       column > 0 &&
       column <= this.columns.length
     ) {
       addedChecker = this.columns[column - 1].addChecker(playerId)
       if (addedChecker && this.isWinningPossible && !this.isWon) {
-        this.checkWinningCondition(playerId, column, this.height - this.columns[column - 1].availableRows)
+        this.checkWinningCondition(
+          playerId,
+          column,
+          this.height - this.columns[column - 1].availableRows
+        )
       }
     }
     return addedChecker
   }
 
-  checkWinningCondition (playerId, startingColumn, startingRow) {
+  /**
+   * Checks for winning condition based on last placed checker
+   * @param {number} playerId - The ID of the player
+   * @param {number} startingColumn - The starting column index
+   * @param {number} startingRow - The starting row index
+   */
+  checkWinningCondition(
+    playerId: number,
+    startingColumn: number,
+    startingRow: number
+  ): void {
     const movement = {
       left: Math.min(startingColumn - 1, this.winningLength - 1),
       right: Math.min(this.width - startingColumn, this.winningLength - 1),
@@ -182,10 +241,13 @@ export default class {
         moves--
       }
     }
-    const consecutiveHorizontalTiles = consecutiveTiles.left + consecutiveTiles.right + 1
+    const consecutiveHorizontalTiles =
+      consecutiveTiles.left + consecutiveTiles.right + 1
     const consecutiveVerticalTiles = consecutiveTiles.down + 1
-    const consecutiveDiagonalUpTiles = consecutiveTiles.downLeft + consecutiveTiles.upRight + 1
-    const consecutiveDiagonalDownTiles = consecutiveTiles.upLeft + consecutiveTiles.downRight + 1
+    const consecutiveDiagonalUpTiles =
+      consecutiveTiles.downLeft + consecutiveTiles.upRight + 1
+    const consecutiveDiagonalDownTiles =
+      consecutiveTiles.upLeft + consecutiveTiles.downRight + 1
     if (
       consecutiveHorizontalTiles >= this.winningLength ||
       consecutiveVerticalTiles >= this.winningLength ||
@@ -209,7 +271,11 @@ export default class {
     }
   }
 
-  isFull () {
+  /**
+   * Checks if the board is full
+   * @returns {boolean} - Whether the board is full
+   */
+  isFull(): boolean {
     let full = false
     if (this.columns.length > 0) {
       let availableSlots = 0
@@ -223,7 +289,10 @@ export default class {
     return full
   }
 
-  reset () {
+  /**
+   * Resets the board to its initial state
+   */
+  reset(): void {
     this.isWon = false
     this.winningSet = []
     if (this.columns.length > 0) {

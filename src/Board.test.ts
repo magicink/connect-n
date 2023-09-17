@@ -1,7 +1,6 @@
-// @flow
 /* eslint sort-imports: ["error", {"ignoreCase": true}] */
 /* eslint sort-keys: "error" */
-import Board from './board'
+import Board from './Board'
 
 describe('Board', () => {
   it('should initialize correctly', () => {
@@ -10,17 +9,6 @@ describe('Board', () => {
     const invalidBoard = new Board(2, 2, 3)
     expect(invalidBoard.isValidBoard).toEqual(true)
     expect(invalidBoard.isWinningPossible).toEqual(false)
-  })
-  it('should throw errors', () => {
-    expect(() => {
-      new Board('1', 2)
-    }).toThrow()
-    expect(() => {
-      new Board(1, '2')
-    }).toThrow()
-    expect(() => {
-      new Board(1, 2, '2')
-    }).toThrow()
   })
   it('should add a checker', () => {
     const board = new Board(4, 4)
@@ -32,8 +20,6 @@ describe('Board', () => {
   it('should not add a new checker', () => {
     const board = new Board(4, 4)
     let result = board.addChecker(1, 5)
-    expect(result).toEqual(false)
-    result = board.addChecker(1, 'p')
     expect(result).toEqual(false)
     result = board.addChecker(1, 0)
     expect(result).toEqual(false)

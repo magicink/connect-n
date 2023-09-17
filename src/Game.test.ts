@@ -1,7 +1,7 @@
 // @flow
 /* eslint sort-imports: ["error", {"ignoreCase": true}] */
 /* eslint sort-keys: "error" */
-import Game, { GAME_STATE_DRAW } from './game'
+import Game from './Game'
 
 describe('Game', () => {
   afterEach(() => {
@@ -47,7 +47,7 @@ describe('Game', () => {
     game.addChecker(3)
     game.addChecker(3)
     game.addChecker(2)
-    expect(game.gameState).toEqual(GAME_STATE_DRAW)
+    expect(game.gameState).toEqual('GAME_STATE_DRAW')
   })
   it('should find the correct player', () => {
     const game = new Game(2, 3, 3, 3)

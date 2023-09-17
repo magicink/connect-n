@@ -1,7 +1,6 @@
-// @flow
 /* eslint sort-imports: ["error", {"ignoreCase": true}] */
 /* eslint sort-keys: "error" */
-import Column from './column'
+import Column from './Column'
 
 describe('Column', () => {
   it('should initialize correctly', () => {
