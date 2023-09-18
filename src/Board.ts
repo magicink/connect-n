@@ -26,7 +26,7 @@ export default class Board {
   isWinningPossible: boolean
   isWon: boolean
   isValidBoard: boolean
-  winningSet: { x: number; y: number }[]
+  winningSet: { x: number; y: number }[][]
 
   /**
    * Creates a new Board
@@ -267,7 +267,7 @@ export default class Board {
       if (consecutiveDiagonalUpTiles >= this.winningLength) {
         set.push.apply(set, diagonalUpSet)
       }
-      this.winningSet = set
+      this.winningSet.push(set)
     }
   }
 
