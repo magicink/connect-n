@@ -12,7 +12,10 @@
     "name": "Brandon Tom",
     "email": "magicink@gmail.com"
   },
-  "main": "index.js",
+  "main": "src/Game.ts",
+  "files": [
+    "src/"
+  ],
   "scripts": {
     "prepare": "husky install",
     "test": "jest"
