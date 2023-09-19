@@ -106,4 +106,9 @@ describe('Board', () => {
     board.addChecker(1, 3)
     expect(board.isWon).toEqual(true)
   })
+  it('should throw if initialized with fractions', () => {
+    expect(() => {
+      new Board(1.5, 1.5)
+    }).toThrow()
+  })
 })
