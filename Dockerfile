@@ -1,5 +1,5 @@
 # Use Debian-based Node image instead of Alpine for apt-get support
-FROM node:lts
+FROM oven/bun
 
 # Metadata as before
 MAINTAINER Brandon Tom
@@ -15,13 +15,13 @@ WORKDIR /var/www
 
 # Update apt-get and install Yarn
 RUN apt-get update && \
-    apt-get install -y yarn
+    apt-get install -y git
 
 # Install project dependencies
-RUN yarn install
+RUN bun install
 
 # Expose port
 EXPOSE $PORT
 
 # Run tests
-ENTRYPOINT ["yarn", "test"]
+ENTRYPOINT ["bun", "test"]
