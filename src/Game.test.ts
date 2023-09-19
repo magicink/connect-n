@@ -53,4 +53,13 @@ describe('Game', () => {
     const game = new Game(2, 3, 3, 3)
     expect(game.findPlayer(2)).toEqual(game.players[1])
   })
+
+  it('should return false when addChecker is called under invalid conditions', () => {
+    const game = new Game(2)
+    game.gameState = null
+    expect(game.addChecker(0)).toBe(false)
+    game.gameState = 'GAME_STATE_ACTIVE'
+    game.board = null
+    expect(game.addChecker(0)).toBe(false)
+  })
 })
