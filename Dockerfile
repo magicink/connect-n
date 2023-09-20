@@ -1,11 +1,11 @@
 # Use Debian-based Node image instead of Alpine for apt-get support
-FROM oven/bun
+FROM node:lts
 
 # Metadata as before
 MAINTAINER Brandon Tom
 
 # Environment variable
-ENV PORT=8379
+ENV PORT=6006
 
 # Copy project files
 COPY . /var/www
@@ -14,14 +14,14 @@ COPY . /var/www
 WORKDIR /var/www
 
 # Update apt-get and install Yarn
-RUN apt-get update && \
-    apt-get install -y git
+RUN apt-get update
 
 # Install project dependencies
-RUN bun install
+RUN corepack prepare yarn@1.22.19 --activate
+RUN corepack enable yarn
+RUN corepack yarn install
 
 # Expose port
 EXPOSE $PORT
 
-# Run tests
-ENTRYPOINT ["bun", "test"]
+ENTRYPOINT ["corepack", "yarn", "storybook"]

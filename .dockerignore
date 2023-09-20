@@ -1,1 +1,9 @@
+# Dependency directory
+node_modules
+
+# Husky
+.husky
+
+# Package Manager Lock Files
+package-lock.json
 yarn.lock
