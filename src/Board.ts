@@ -276,17 +276,11 @@ export default class Board {
    * @returns {boolean} - Whether the board is full
    */
   isFull(): boolean {
-    let full = false
-    if (this.columns.length > 0) {
-      let availableSlots = 0
-      for (let i in this.columns) {
-        availableSlots += this.columns[i].availableRows
-      }
-      if (availableSlots === 0) {
-        full = true
-      }
-    }
-    return full
+    const availableSlots = this.columns.reduce(
+      (acc, column) => acc + column.availableRows,
+      0
+    )
+    return availableSlots === 0
   }
 
   /**
