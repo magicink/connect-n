@@ -17,8 +17,8 @@ WORKDIR /var/www
 RUN apt-get update
 
 # Install project dependencies
+RUN corepack enable
 RUN corepack prepare yarn@1.22.19 --activate
-RUN corepack enable yarn
 RUN corepack yarn install
 
 # Expose port
